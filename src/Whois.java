@@ -10,14 +10,13 @@ import java.util.regex.Pattern;
 
 public class Whois {
 
-    private static Pattern pattern;
     private static final String SERVER_MATCH = "Whois Server:\\s(.*)";
     static {
         pattern = Pattern.compile(SERVER_MATCH);
     }
+    private static Pattern pattern;
 
-    public static String getWhoisRequest(String query)
-    {
+    public static String getWhoisRequest(String query) {
         WhoisClient whoisClient = new WhoisClient();
         String output;
 
@@ -25,11 +24,10 @@ public class Whois {
             whoisClient.connect(WhoisClient.DEFAULT_HOST);
             output = whoisClient.query("=" + query.toUpperCase());
             whoisClient.disconnect();
-            
+
             String returnServer = getWhoisServer(output);
 
-            if(!returnServer.equals(""))
-            {
+            if (!returnServer.equals("")) {
                 whoisClient.connect(returnServer);
                 output = whoisClient.query("=" + query.toUpperCase());
                 whoisClient.disconnect();
@@ -44,8 +42,7 @@ public class Whois {
 
     }
 
-   public static String getWhoisServer(String whoisOutput)
-    {
+    public static String getWhoisServer(String whoisOutput) {
         String server = "";
 
         Matcher matcher = pattern.matcher(whoisOutput);

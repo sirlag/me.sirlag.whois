@@ -21,6 +21,8 @@ public class Main extends Application {
     private TextField nameField, organizationField, streetField, cityField, stateField, postalField, countryField,
             phoneField, phoneExtField, faxField, faxExtField, emailField;
 
+    private TextArea fullWhois;
+
     private Admin currentAdmin;
 
     public static void main(String[] args) {
@@ -33,7 +35,7 @@ public class Main extends Application {
         currentAdmin = null;
 
         //TextArea for the full whois to display
-        TextArea fullWhois = new TextArea();
+        fullWhois = new TextArea();
         fullWhois.setEditable(false);
         fullWhois.setMinHeight(250);
 
@@ -47,7 +49,7 @@ public class Main extends Application {
         Button getInfo = new Button("Search");
         getInfo.setOnAction((ActionEvent e) -> {
 
-            updateAdmin(getInfo.getText());
+            updateAdmin(domainField.getText());
 
         });
 
@@ -125,8 +127,8 @@ public class Main extends Application {
         emailField.setEditable(false);
         rightPane.add(emailField, 1, 11);
 
-        rightPane.setMinWidth(260);
-        rightPane.setMaxWidth(260);
+        rightPane.setMinWidth(280);
+        rightPane.setMaxWidth(280);
         rightPane.setAlignment(Pos.CENTER);
 
         HBox root = new HBox(leftPane, rightPane);
@@ -134,7 +136,7 @@ public class Main extends Application {
 
         Scene scene = new Scene(root, 600, 325);
 
-        primaryStage.setTitle("Hello World!");
+        primaryStage.setTitle("Whois Admin Lookup");
         primaryStage.setScene(scene);
         primaryStage.show();
         primaryStage.setResizable(false);
@@ -156,6 +158,8 @@ public class Main extends Application {
         faxField.setText(currentAdmin.getAdminFax());
         faxExtField.setText(currentAdmin.getAdminFaxExt());
         emailField.setText(currentAdmin.getAdminEmail());
+
+        fullWhois.setText(currentAdmin.getWhoIs());
 
     }
 }

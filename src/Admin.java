@@ -2,10 +2,16 @@
  * Created by Matthew on 12/2/2014.
  */
 
-import java.util.regex.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Admin {
 
+    private static final String EMAIL_MATCH = "Whois Server:\\s(.*)";
+    static {
+        emailPattern = Pattern.compile(EMAIL_MATCH);
+    }
+    private static Pattern emailPattern;
     private String adminName;
     private String adminEmail;
     private String adminOrganisation;
@@ -18,6 +24,69 @@ public class Admin {
     private String adminPhoneExt;
     private String adminFax;
     private String adminFaxExt;
+    private String whoIs;
+
+    public Admin(String domain) {
+
+        whoIs = Whois.getWhoisRequest(domain);
+        System.out.println(whoIs);
+
+        Matcher matcher;
+
+        matcher = Pattern.compile("Admin Name:\\s(.*)").matcher(whoIs);
+        if (matcher.find())
+            adminName = matcher.group(1);
+
+        matcher = Pattern.compile("Admin Organization:\\s(.*)").matcher(whoIs);
+        if (matcher.find())
+            adminOrganisation = matcher.group(1);
+
+        matcher = Pattern.compile("Admin Street:\\s(.*)").matcher(whoIs);
+        if (matcher.find())
+            adminStreet = matcher.group(1);
+
+        matcher = Pattern.compile("Admin City:\\s(.*)").matcher(whoIs);
+        if (matcher.find())
+            adminCity = matcher.group(1);
+
+        matcher = Pattern.compile("Admin State/Province:\\s(.*)").matcher(whoIs);
+        if (matcher.find())
+            adminState = matcher.group(1);
+
+        matcher = Pattern.compile("Admin Postal Code:\\s(.*)").matcher(whoIs);
+        if (matcher.find())
+            adminPostalCode = matcher.group(1);
+
+        matcher = Pattern.compile("Admin Country:\\s(.*)").matcher(whoIs);
+        if (matcher.find())
+            adminCountry = matcher.group(1);
+
+        matcher = Pattern.compile("Admin Phone:\\s(.*)").matcher(whoIs);
+        if (matcher.find())
+            adminPhone = matcher.group(1);
+
+        matcher = Pattern.compile("Admin Phone Ext:\\s(.*)").matcher(whoIs);
+        if (matcher.find())
+            adminPhoneExt = matcher.group(1);
+
+        matcher = Pattern.compile("Admin Fax:\\s(.*)").matcher(whoIs);
+        if (matcher.find())
+            adminFax = matcher.group(1);
+
+        matcher = Pattern.compile("Admin Fax Ext:\\s(.*)").matcher(whoIs);
+        if (matcher.find())
+            adminFaxExt = matcher.group(1);
+
+        matcher = Pattern.compile("Admin Email:\\s(.*)").matcher(whoIs);
+        if (matcher.find())
+            adminEmail = matcher.group(1);
+
+    }
+
+    public static void main(String[] args) {
+        System.out.println(Whois.getWhoisRequest("google.com"));
+        System.out.println("Done");
+    }
 
     public String getAdminName() {
         return adminName;
@@ -67,72 +136,8 @@ public class Admin {
         return adminFaxExt;
     }
 
-
-    private static Pattern emailPattern;
-    private static final String EMAIL_MATCH = "Whois Server:\\s(.*)";
-    static {
-        emailPattern = Pattern.compile(EMAIL_MATCH);
-    }
-
-    public static void main(String[] args)
-    {
-        System.out.println(Whois.getWhoisRequest("google.com"));
-        System.out.println("Done");
-    }
-
-    public Admin(String whoIs) {
-
-        Matcher matcher;
-
-        matcher = Pattern.compile("Admin Name:\\s").matcher(whoIs);
-        matcher.find();
-        adminName = matcher.group();
-
-        matcher = Pattern.compile("Admin Organization:\\s").matcher(whoIs);
-        matcher.find();
-        adminOrganisation = matcher.group();
-
-        matcher = Pattern.compile("Admin Street:\\s").matcher(whoIs);
-        matcher.find();
-        adminStreet = matcher.group();
-
-        matcher = Pattern.compile("Admin City:\\s").matcher(whoIs);
-        matcher.find();
-        adminCity = matcher.group();
-
-        matcher = Pattern.compile("Admin State/Province\\s").matcher(whoIs);
-        matcher.find();
-        adminState = matcher.group();
-
-        matcher = Pattern.compile("Admin Postal Code:\\s").matcher(whoIs);
-        matcher.find();
-        adminPostalCode = matcher.group();
-
-        matcher = Pattern.compile("Admin Country:\\s").matcher(whoIs);
-        matcher.find();
-        adminCountry = matcher.group();
-
-        matcher = Pattern.compile("Admin Phone:\\s").matcher(whoIs);
-        matcher.find();
-        adminPhone = matcher.group();
-
-        matcher = Pattern.compile("Admin Phone Ext:\\s").matcher(whoIs);
-        matcher.find();
-        adminPhoneExt = matcher.group();
-
-        matcher = Pattern.compile("Admin Fax:\\s").matcher(whoIs);
-        matcher.find();
-        adminFax = matcher.group();
-
-        matcher = Pattern.compile("Admin Fax Ext:\\s").matcher(whoIs);
-        matcher.find();
-        adminFaxExt = matcher.group();
-
-        matcher = Pattern.compile("Admin Email:\\s").matcher(whoIs);
-        matcher.find();
-        adminEmail = matcher.group();
-
-
+    public String getWhoIs() {
+        return whoIs;
     }
 
     /*
