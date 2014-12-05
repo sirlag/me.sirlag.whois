@@ -22,14 +22,14 @@ public class Whois {
 
         try {
             whoisClient.connect(WhoisClient.DEFAULT_HOST);
-            output = whoisClient.query("=" + query.toUpperCase());
+            output = whoisClient.query("=" + query);
             whoisClient.disconnect();
 
             String returnServer = getWhoisServer(output);
 
             if (!returnServer.equals("")) {
                 whoisClient.connect(returnServer);
-                output = whoisClient.query("=" + query.toUpperCase());
+                output = whoisClient.query(query);
                 whoisClient.disconnect();
             }
 
