@@ -16,20 +16,21 @@ public class Whois {
     }
     private static Pattern pattern;
 
-    public static String getWhoisRequest(String query) {
+    public static String getWhoisRequest(String query, String server) {
         WhoisClient whoisClient = new WhoisClient();
         String output;
 
         try {
-            whoisClient.connect(WhoisClient.DEFAULT_HOST);
-            output = whoisClient.query("=" + query.toUpperCase());
+            whoisClient.connect(server);
+            output = whoisClient.query("="+query);
+            System.out.println(output);
             whoisClient.disconnect();
 
             String returnServer = getWhoisServer(output);
 
             if (!returnServer.equals("")) {
                 whoisClient.connect(returnServer);
-                output = whoisClient.query("=" + query.toUpperCase());
+                output = whoisClient.query(query);
                 whoisClient.disconnect();
             }
 
@@ -42,7 +43,7 @@ public class Whois {
 
     }
 
-    public static String getWhoisServer(String whoisOutput) {
+    private static String getWhoisServer(String whoisOutput) {
         String server = "";
 
         Matcher matcher = pattern.matcher(whoisOutput);

@@ -2,16 +2,13 @@
  * Created by Matthew on 12/2/2014.
  */
 
+import org.apache.commons.net.whois.WhoisClient;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Admin {
 
-    private static final String EMAIL_MATCH = "Whois Server:\\s(.*)";
-    static {
-        emailPattern = Pattern.compile(EMAIL_MATCH);
-    }
-    private static Pattern emailPattern;
     private String adminName;
     private String adminEmail;
     private String adminOrganisation;
@@ -26,9 +23,9 @@ public class Admin {
     private String adminFaxExt;
     private String whoIs;
 
-    public Admin(String domain) {
+    public Admin(String domain, String server) {
 
-        whoIs = Whois.getWhoisRequest(domain);
+        whoIs = Whois.getWhoisRequest(domain, server);
         System.out.println(whoIs);
 
         Matcher matcher;
@@ -84,7 +81,7 @@ public class Admin {
     }
 
     public static void main(String[] args) {
-        System.out.println(Whois.getWhoisRequest("google.com"));
+        System.out.println(Whois.getWhoisRequest("google.com", WhoisClient.DEFAULT_HOST));
         System.out.println("Done");
     }
 

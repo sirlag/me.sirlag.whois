@@ -44,17 +44,19 @@ public class Main extends Application {
 
         //TextField
         TextField domainField = new TextField();
+        TextField tldField = new TextField();
+        tldField.setMaxWidth(50);
 
         //Button
         Button getInfo = new Button("Search");
         getInfo.setOnAction((ActionEvent e) -> {
 
-            updateAdmin(domainField.getText());
+            updateAdmin(domainField.getText(), tldField.getText());
 
         });
 
         //Adds a label, the TextField and the Button to the Horizontal Box
-        inputPane.getChildren().addAll(new Label("Domain : "), domainField, getInfo);
+        inputPane.getChildren().addAll(new Label("Domain : "), domainField, new Label("."), tldField, getInfo);
         inputPane.setSpacing(10);
         inputPane.setAlignment(Pos.CENTER);
 
@@ -142,8 +144,10 @@ public class Main extends Application {
         primaryStage.setResizable(false);
     }
 
-    private void updateAdmin(String domain) {
-        currentAdmin = new Admin(domain);
+    private void updateAdmin(String domain, String tld) {
+        domain += "." + tld;
+        String server = WhoisServer.getServer(tld);
+        currentAdmin = new Admin(domain, server);
 
         nameField.setText(currentAdmin.getAdminName());
         organizationField.setText(currentAdmin.getAdminOrganisation());
